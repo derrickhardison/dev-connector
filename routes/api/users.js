@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { check, validationResult } = require("express-validator/check");
+const gravatar = require("gravatar");
 
 const User = require("../../models/User");
 // @route   POST api/users
@@ -30,6 +31,19 @@ router.post(
       if (user) {
         res.status(400).json({ errors: [{ msg: "User already exists" }] });
       }
+
+      const avatar = gravatar.url(email, {
+        s: "200",
+        r: "pg",
+        d: "mm",
+      });
+
+      user = new User({
+        name,
+        email,
+        avatar,
+        password,
+      });
       res.send("user route");
     } catch (err) {
       console.error(err.message);
