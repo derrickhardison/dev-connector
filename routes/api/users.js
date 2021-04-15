@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcryptjs");
 const { check, validationResult } = require("express-validator/check");
 const gravatar = require("gravatar");
 
@@ -44,6 +45,11 @@ router.post(
         avatar,
         password,
       });
+
+      const salt = await bcrypt.genSalt(10);
+
+      user.password = await bcrypt.hash(password, salt);
+
       res.send("user route");
     } catch (err) {
       console.error(err.message);
