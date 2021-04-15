@@ -5,6 +5,8 @@ const app = express();
 // connect database
 connectDB();
 
+// Init middleware
+app.use(express.json({ extended: false }));
 const PORT = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
@@ -20,3 +22,5 @@ app.use("/api/post", require("./routes/api/post"));
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
+
+console.log();
